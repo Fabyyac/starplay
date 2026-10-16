@@ -79,12 +79,12 @@ h1 em { color: var(--cyan); font-style: normal; text-shadow: 0 0 20px #4ae6ff55;
 .upgrade-button { width: 100%; margin-top: 8px; padding: 8px 5px; border-radius: 8px; color: #ffe3a7; font-weight: 700; font-size: 12px; cursor: pointer; }
 .hull-upgrade-button { color: #b7ddff; }
 .upgrade-button:disabled { opacity: .5; cursor: default; }
-.paint-heading { display: flex; justify-content: space-between; margin-top: 9px; color: #b7c8e4; font: 700 9px 'Arial Narrow', 'Segoe UI', sans-serif; letter-spacing: .12em; }
-.paint-heading span { color: #ffe0a0; }
-.paint-list { display: flex; gap: 10px; margin-top: 6px; }
-.paint-swatch { width: 27px; height: 27px; padding: 0; border: 2px solid #9fb2d666; border-radius: 50%; background: var(--paint-color); box-shadow: 0 0 9px color-mix(in srgb, var(--paint-color), transparent 45%); cursor: pointer; }
-.paint-swatch.selected { outline: 2px solid #fff; outline-offset: 2px; }
-.paint-swatch.locked { position: relative; opacity: .55; }
+.paint-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 8px; margin-top: 9px; color: #b7c8e4; font: 700 9px 'Arial Narrow', 'Segoe UI', sans-serif; letter-spacing: .12em; }
+.paint-heading span { color: #ffe0a0; font-size: 10px; letter-spacing: .02em; }
+.paint-help { margin: 4px 0; color: #aebdd5; font-size: 12px; }
+.paint-list { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.paint-swatch { position: relative; flex: 0 0 40px; width: 40px; height: 40px; padding: 0; border: 3px solid #d3e5ff99; border-radius: 50%; background: var(--paint-color); cursor: pointer; touch-action: manipulation; }
+.paint-swatch.selected { outline: 2px solid #fff; outline-offset: 2px; box-shadow: 0 0 16px var(--paint-color); }
 .paint-swatch.locked::after { content: "·"; position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50%; background: #10152877; color: white; font-size: 22px; }
 .primary-button, .secondary-button, .text-button { display: block; width: 100%; margin-top: 9px; padding: 12px 16px; border-radius: 9px; cursor: pointer; font: 700 12px 'Arial Narrow', 'Segoe UI', sans-serif; letter-spacing: .11em; transition: filter .15s, transform .15s; }
 .primary-button { border: 1px solid #8ff5ff; color: #061020; background: linear-gradient(110deg, #76f2ff, #6d9dff); box-shadow: 0 0 22px #60dfff42; }
@@ -145,7 +145,7 @@ h1 em { color: var(--cyan); font-style: normal; text-shadow: 0 0 20px #4ae6ff55;
   .ship-card strong { font-size: 9px; }
   .ship-card small { font-size: 10px; }
   .upgrade-button { padding: 6px 3px; font-size: 10px; }
-  .paint-swatch { width: 24px; height: 24px; }
+  .paint-swatch { flex-basis: 38px; width: 38px; height: 38px; }
   .menu-controls { font-size: 9px; }
   .touch-controls { display: flex; }
 }

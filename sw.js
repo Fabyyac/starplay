@@ -1,4 +1,4 @@
-const CACHE_NAME = 'galactic-journeys-v3';
+const CACHE_NAME = 'galactic-journeys-v4';
 const APP_FILES = ['./', './index.html', './styles.css', './game.js', './manifest.webmanifest', './starship.svg'];
 
 self.addEventListener('install', event => {

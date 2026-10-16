@@ -187,7 +187,7 @@ function renderHangar() {
     card.setAttribute('aria-label', unlocked ? `Selecionar ${ship.name}` : `Desbloquear ${ship.name} por ${ship.cost} créditos`);
     const art = document.createElement('span');
     art.className = 'ship-art';
-    art.style.setProperty('--ship-color', ship.color);
+    art.style.setProperty('--ship-color', profile.selected === ship.id ? paintById().color : ship.color);
     const silhouette = document.createElement('i');
     silhouette.className = `ship-silhouette ship-${ship.id}`;
     art.append(silhouette);
@@ -259,7 +259,9 @@ function renderHangar() {
     ui.paintList.append(button);
   }
   const selectedPaint = paintById();
-  ui.paintStatus.textContent = profile.unlockedPaints.includes(selectedPaint.id) ? selectedPaint.name : `${selectedPaint.cost} ◈`;
+  ui.paintStatus.textContent = profile.unlockedPaints.includes(selectedPaint.id)
+    ? `Aplicada: ${selectedPaint.name}`
+    : `${selectedPaint.cost} créditos`;
   updateSoundButtons();
 }
 
