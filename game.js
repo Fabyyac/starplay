@@ -649,7 +649,8 @@ function update(dt) {
   const boosting = (keys.has('ShiftLeft') || keys.has('ShiftRight') || touch.boost) && player.boost > 0;
   const speed = player.speed * (boosting ? 1.6 : 1);
   if (boosting) player.boost = Math.max(0, player.boost - 48 * dt);
-  player.x = Math.max(24, Math.min(game.width - 24, player.x + horizontal * normalizer * speed * dt));
+  const horizontalSpeed = speed * (Math.abs(joystick.x) > 0 ? 1.2 : 1);
+  player.x = Math.max(24, Math.min(game.width - 24, player.x + horizontal * normalizer * horizontalSpeed * dt));
   player.y = Math.max(85, Math.min(game.height - 34, player.y + vertical * normalizer * speed * dt));
   ui.boost.classList.toggle('hidden', !boosting);
 
@@ -1261,17 +1262,25 @@ function frame(time) {
 }
 
 function setJoystick(event) {
-  const bounds = document.querySelector('#joystick').getBoundingClientRect();
+  const bounds = document.querySelector('.joystick-ring').getBoundingClientRect();
+  const knob = document.querySelector('#joystick-knob');
+  const knobBounds = knob.getBoundingClientRect();
   const centerX = bounds.left + bounds.width / 2;
   const centerY = bounds.top + bounds.height / 2;
-  const max = bounds.width * .35;
+  const maxX = Math.max(1, (bounds.width - knobBounds.width) / 2);
+  const maxY = Math.max(1, (bounds.height - knobBounds.height) / 2);
   const dx = event.clientX - centerX;
   const dy = event.clientY - centerY;
-  const length = Math.hypot(dx, dy);
-  const ratio = length > max ? max / length : 1;
-  joystick.x = dx * ratio / max;
-  joystick.y = dy * ratio / max;
-  document.querySelector('#joystick-knob').style.transform = `translate(calc(-50% + ${dx * ratio}px), calc(-50% + ${dy * ratio}px))`;
+  const normalizedX = dx / maxX;
+  const normalizedY = dy / maxY;
+  const length = Math.hypot(normalizedX, normalizedY);
+  const ratio = length > 1 ? 1 / length : 1;
+  const knobX = normalizedX * ratio * maxX;
+  const knobY = normalizedY * ratio * maxY;
+  const horizontalInput = normalizedX * ratio;
+  joystick.x = Math.sign(horizontalInput) * Math.pow(Math.abs(horizontalInput), .8);
+  joystick.y = normalizedY * ratio;
+  knob.style.transform = `translate(calc(-50% + ${knobX}px), calc(-50% + ${knobY}px))`;
 }
 
 function resetJoystick() {
