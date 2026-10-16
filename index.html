@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#070b1d">
+    <meta name="description" content="Jornadas nas Estrelas: Guerra Galáctica — um jogo espacial de ação para celular e computador.">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./starship.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Jornadas nas Estrelas: Guerra Galáctica</title>
+  </head>
+  <body>
+    <main id="game" aria-label="Jornadas nas Estrelas: Guerra Galáctica">
+      <canvas id="space" aria-label="Campo de batalha espacial"></canvas>
+
+      <header id="hud" class="hud hidden">
+        <div class="hud-title">
+          <span class="eyebrow">JORNADAS NAS ESTRELAS</span>
+          <strong id="mission-name">Missão 1</strong>
+        </div>
+        <div class="hud-stats">
+          <div class="meter health-meter"><span>VIDA DA NAVE <b id="health-value">100 / 100</b></span><div class="meter-track"><i id="health-fill"></i></div></div>
+          <div class="meter shield-meter"><span>ESCUDO <b id="shield-value">100%</b></span><div class="meter-track"><i id="shield-fill"></i></div></div>
+          <div class="stat"><span>PONTOS</span><b id="score-value">0</b></div>
+          <div class="stat"><span>ABATES</span><b id="kills-value">0</b></div>
+          <div class="stat special-stat"><span>MÍSSEIS</span><b id="ammo-value">3</b></div>
+          <button id="hud-sound-button" class="icon-button sound-hud-button" type="button" aria-label="Desligar som" aria-pressed="true">♫</button>
+          <button id="pause-button" class="icon-button" aria-label="Pausar jogo">Ⅱ</button>
+        </div>
+        <div id="boss-hud" class="boss-hud hidden">
+          <span id="boss-name">NAVE-MÃE</span>
+          <div class="meter-track"><i id="boss-fill"></i></div>
+        </div>
+      </header>
+
+      <div id="toast" class="toast hidden" role="status"></div>
+
+      <section id="screen-menu" class="screen">
+        <div class="menu-card">
+          <div class="brand-mark" aria-hidden="true"><span>✦</span></div>
+          <p class="eyebrow">UMA AVENTURA INTERGALÁCTICA</p>
+          <h1>Jornadas nas Estrelas:<br><em>Guerra Galáctica</em></h1>
+          <p class="intro">A última linha de defesa da galáxia é você.</p>
+          <button id="menu-sound-button" class="sound-button" type="button" aria-pressed="true">♫ SOM: LIGADO</button>
+          <div id="hangar" class="hangar">
+            <div class="hangar-heading">
+              <span>HANGAR</span>
+              <span class="coin-label">◈ <b id="coin-value">0</b> créditos</span>
+            </div>
+            <div id="ship-list" class="ship-list"></div>
+            <div class="upgrade-row">
+              <button id="upgrade-button" class="upgrade-button">Aprimorar canhões · <span id="upgrade-cost">25</span> ◈</button>
+              <button id="hull-upgrade-button" class="upgrade-button hull-upgrade-button">Melhorar nave · <span id="hull-upgrade-cost">40</span> ◈</button>
+            </div>
+            <div class="paint-heading">PINTURA DA NAVE <span id="paint-status">GRÁTIS</span></div>
+            <div id="paint-list" class="paint-list" aria-label="Pinturas da nave"></div>
+          </div>
+          <button id="start-button" class="primary-button">INICIAR MISSÃO <span>➜</span></button>
+          <p class="menu-controls">MOVER <b>WASD / SETAS</b> &nbsp;·&nbsp; DISPARAR <b>ESPAÇO</b> &nbsp;·&nbsp; TURBO <b>SHIFT</b> &nbsp;·&nbsp; MÍSSEIS <b>E</b></p>
+        </div>
+      </section>
+
+      <section id="screen-pause" class="screen hidden">
+        <div class="dialog-card">
+          <p class="eyebrow">SISTEMAS EM ESPERA</p>
+          <h2>Missão pausada</h2>
+          <p>Respire. A galáxia pode esperar alguns segundos.</p>
+          <button id="resume-button" class="primary-button">RETOMAR</button>
+          <button id="pause-restart-button" class="secondary-button">REINICIAR MISSÃO</button>
+          <button id="pause-menu-button" class="text-button">VOLTAR AO HANGAR</button>
+        </div>
+      </section>
+
+      <section id="screen-end" class="screen hidden">
+        <div class="dialog-card">
+          <p id="end-eyebrow" class="eyebrow">RELATÓRIO DA MISSÃO</p>
+          <h2 id="end-title">Missão concluída</h2>
+          <p id="end-message"></p>
+          <div class="result-stats">
+            <span>PONTUAÇÃO <b id="end-score">0</b></span>
+            <span>CRÉDITOS GANHOS <b id="end-coins">0</b></span>
+          </div>
+          <button id="continue-button" class="primary-button">PRÓXIMA MISSÃO <span>➜</span></button>
+          <button id="end-restart-button" class="secondary-button">JOGAR NOVAMENTE</button>
+          <button id="end-menu-button" class="text-button">VOLTAR AO HANGAR</button>
+        </div>
+      </section>
+
+      <div id="touch-controls" class="touch-controls hidden" aria-label="Controles de toque">
+        <div id="joystick" class="joystick" aria-label="Joystick de movimento">
+          <div class="joystick-ring"><div id="joystick-knob" class="joystick-knob"></div></div>
+        </div>
+        <div class="touch-actions">
+          <button id="touch-special" class="touch-button special-touch" aria-label="Disparar mísseis">E<br><small>MÍSSIL</small></button>
+          <button id="touch-fire" class="touch-button fire-touch" aria-label="Disparar laser"><span>✦</span><small>FOGO</small></button>
+          <button id="touch-boost" class="touch-button boost-touch" aria-label="Ativar turbo">»<small>TURBO</small></button>
+        </div>
+      </div>
+
+      <div id="boost-indicator" class="boost-indicator hidden">TURBO ATIVADO</div>
+    </main>
+    <script src="./game.js" defer></script>
+  </body>
+</html>
